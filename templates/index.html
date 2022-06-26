@@ -1,0 +1,30 @@
+
+
+{% extends "base.html" %}
+
+{% block content %}
+    <center><h1>Propagate Uncertainty App</h1></center>
+    <p>Please type your expression into the textbox provided. Use standard python math operations (your expression
+    should compile in python). For a list of functions you may use, refer to the documentation page. To understand how
+    propagation of uncertainty works, refer to the learning page.</p>
+
+
+    <form id = "center_me" method="POST" action="/submit_expression">
+    <p>Expression: <input id="txt_input" type="text" name="expression"> <input type="submit" value="Submit"></p>
+    </form>
+
+
+    <script>
+        //add child to <form>
+        varInputListEl = document.getElementById("expander")
+        inputExpressionEl = document.getElementByID("exprInput")
+        //look up form validation javascript example for how to get into the form input
+        //also going to need to check if variables are accounted for in the list and if they are not then add them and
+        // there are extraneous ones then remove them!
+        //will also have to do parens checking and see if its possible to color the parenthesis different colors within the expression!
+
+    </script>
+    <script type="text/javascript" src="path-to-javascript-file.js"></script>
+
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <center><h1>Propagate Uncertainty App</h1></center>
+    <p>Please type your expression into the textbox provided. Use standard python math operations (your expression
+    should compile in python). For a list of functions you may use, refer to the documentation page. To understand how
+    propagation of uncertainty works, refer to the learning page.</p>
+
+
+
+    <div>{{r}}</div><br>
+
+
+    <form id = "center_me" method="POST" action="/submit_expression">
+        {% for var in variables %}
+        <p>Variable {{}} value: <input id="txt_input" type="text" name="var{{}}"></p>
+        <p>Variable {{}} uncertainty (+/-): <input id="txt_input" type="text" name="var{{}}"></p>
+        <br>
+        {% endfor %}
+
+
+            <input type="submit" value="Submit">
+    </form>
+
+
+{% endblock %}l>

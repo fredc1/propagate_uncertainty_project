@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <center><h1>Other ways to propagate uncertainty</h1></center>
+    <body>
+    You have a few alternatives to using this app:
+        <ol>
+            <li>Manual calculation</li>
+            <li>Make up numbers (we've all done it)</li>
+            <li>Use the GUM method with a monte carlo simulation</li>
+        </ol>
+    <h2>Manual calculation</h2>
+    <p>
+        As outlined <a href="https://en.wikipedia.org/wiki/Propagation_of_uncertainty">here</a>, manual
+        propagation of uncertainty is pretty easy for simple expressions. Consider the function below.
+    </p>
+    <center><img src="{{url_for('static', filename='surface.png')}}" style="width: 50%; height: 50%"/></center>
+    <p>
+        The vertical z-axis represents the expression that you are trying to find the uncertainty of. The x and y axis
+        represent measurement variables. For example, x and y could represent the measured length and width of a table, and
+        z could represent the area of the table. In that case, the function would not be so curvy, but the curves will
+        illustrate my next point.
+    </p>
+    <p>
+        Imagine standing somewhere on that surface. You can imagine uncertainty in the x and y variables as wiggling your
+        x or y position at that point. Imagine taking a step in the x direction, the amount that you would rise up
+        or fall down is the uncertainty in the expression corresponding to the uncertainty in the x direction. To linearize
+        this idea imagine a tangent plane to the surface at your point and stepping up/down the tangent plane rather than
+        the surface itself. In order to calculate the vertical step up the tangent plane, we multiply the step size
+        in the x direction by the slope of the tangent line in the x direction otherwise known as the partial derivative
+        with respect to x. Remember that this idea will work in only a small neighborhood of your location. For extreme
+        uncertainties, the non-linear effects may dominate.
+    </p>
+    <p>
+        Given a function \(f(x_1,x_2,...,x_n)\) and uncertainties \(\Delta x_1,...,\Delta x_n\), the uncertainty in
+        the function is given by,
+        <br>
+        <center>\(\Delta f = \sqrt{ (\frac{\partial f}{\partial x_1}\Delta x_1 )^2 +...+ (\frac{\partial f}{\partial x_n}\Delta x_n )^2 }\).</center>
+        <br>
+        The only difference between this equation and our qualitative description above is that after multiplying
+        the step size by the partial derivative, we square the result. This is done to make everything positive. You
+        might be annoyed that absolute value isn't used. The reason for this is that the absolute value function is
+        not differentiable at zero. This is annoying for some higher level applications that use error. Note that after
+        squaring everything, the units of the result are the units of \(f\) squared. The square root is necessary to
+        return to the units of the value calculated from \(f\).
+    </p>
+    <h2>Monte Carlo Methods</h2>
+    <p>
+        There is another way to propagate uncertainty that uses computation instead of calculus. This method is more
+        accurate. Instead of specifying an uncertainty for each measurement variable, a probability distribution is
+        generated for each variable using the value measured and the type of measurement it is. Then the
+        expression is sampled as many times as needed and the sample standard deviation in the data
+        can be taken as the uncertainty in the expression. You can sample the expression by sampling the variables
+        and then pumping them through the expression. A more formal version of this procedure is used by physics
+        researchers and is called the GUM standard. Below I have included resources to more fully learn
+        this method and also a link to an app that will do this all for you.
+        <ul>
+            <li><a href="https://ermongroup.github.io/cs228-notes/preliminaries/probabilityreview/">Overview of probability theory</a></li>
+            <li><a href="https://www.nist.gov/itl/sed/topic-areas/measurement-uncertainty">Overview of the GUM method</a></li>
+            <li><a href="https://uncertainty.nist.gov/">Automated GUM uncertainty app!</a></li>
+        </ul>
+    </p>
+
+
+    </body>
+
+{% endblock %}
+
