@@ -7,26 +7,17 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    new_description = request.form['expression']
-    print(new_description)
-    return render_template('index.html', title='form title', expr="",with_results=False)
 
-
-'''@app.route("/")
-def index():
-    form = ExpressionForm()
-    return render_template('index.html', form=form)
-
-'''
+    return render_template('index.html', title='form title', expr="", with_results=False)
 
 
 @app.route('/submit_expression', methods=['GET', 'POST'])
 def submit_expression():
     expression = request.form['expression']
-
-    return redirect(f'/input_variables?expr = {expression}')
+    print(expression)
+    return redirect(f'/')
 
 
 @app.route('/input_variables')

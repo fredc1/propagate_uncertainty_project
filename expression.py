@@ -1,14 +1,37 @@
 from uncertainties.umath import *
 from uncertainties import ufloat_fromstr
 
-permitted_func_strings = {"acos", "acosh", "asin", "asinh",
-                          "atan", "atanh", "ceil",
-                          "cos", "cosh", "erf", "erfc",
-                          "exp", "fabs", "factorial",
-                          "floor", "gamma", "hypot", "lgamma",
-                          "log", "modf", "pow",
-                          "sin", "sinh", "sqrt", "tan",
-                          "tanh", "trunc"}
+permitted_func_strings = {"acos": "Return the arc cosine (measured in radians) of x.",
+                          "acosh": "Return the inverse hyperbolic cosine of x.",
+                          "asin": "Return the arc sine (measured in radians) of x.",
+                          "asinh": "Return the inverse hyperbolic sine of x.",
+                          "atan": "Return the arc tangent (measured in radians) of x.",
+                          "atanh": "Return the inverse hyperbolic tangent of x.",
+                          "ceil": "Return the ceiling of x as an Integral. This is the smallest integer >= x.",
+                          "cos": "Return the cosine of x (measured in radians).",
+                          "cosh": "Return the hyperbolic cosine of x.",
+                          "erf": "Error function at x.",
+                          "erfc": "Complementary error function at x.",
+                          "exp": "Return e raised to the power of x.",
+                          "fabs": "Return the absolute value of the float x.",
+                          "factorial": "Find x!. Raise a ValueError if x is negative or non-integral.",
+                          "floor": "Return the floor of x as an Integral. This is the largest integer <= x.",
+                          "gamma": "Gamma function at x.",
+                          "hypot": "Multidimensional Euclidean distance from the origin to a point. Roughly "
+                                   "equivalent to: sqrt(sum(x**2 for x in coordinates))",
+                          "lgamma": "Natural logarithm of absolute value of Gamma function at x.",
+                          "log": "Return the logarithm of x to the given base. If the base not specified, returns the "
+                                 "natural logarithm (base e) of x.",
+                          "modf": "Return the fractional and integer parts of x. Both results carry the sign of x and "
+                                  "are floats.",
+                          "pow": "Return x**y (x to the power of y).",
+                          "sin": "Return the sine of x (measured in radians).",
+                          "sinh": "Return the hyperbolic sine of x.",
+                          "sqrt": "Return the square root of x.",
+                          "tan": "Return the tangent of x (measured in radians).",
+                          "tanh": "Return the hyperbolic tangent of x.",
+                          "trunc": "Truncates the Real x to the nearest Integral toward 0."
+                          }
 
 
 def parse_expr(expr) -> set:
@@ -72,4 +95,3 @@ class Expression:
         exec(command, globals(), _locals)
 
         return _locals["result"].__repr__()
-
