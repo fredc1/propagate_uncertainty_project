@@ -11,10 +11,10 @@
     <div>{{r}}</div><br>
 
 
-    <form id = "center_me" method="POST" action="/submit_expression">
+    <form id = "center_me" method="POST" action="/results">
         {% for var in variables %}
-        <p>Variable {{}} value: <input id="txt_input" type="text" name="var{{}}"></p>
-        <p>Variable {{}} uncertainty (+/-): <input id="txt_input" type="text" name="var{{}}"></p>
+        <p>Variable {{}} value: <input id="var_name_input" type="text" name="var{{}}"></p>
+        <p>Variable {{}} uncertainty (+/-): <input id="var_uncertainty_input" type="text" name="var{{}}"></p>
         <br>
         {% endfor %}
 

@@ -16,8 +16,9 @@ def index():
 @app.route('/submit_expression', methods=['GET', 'POST'])
 def submit_expression():
     expression = request.form['expression']
+    vars = ['x','y']
     print(expression)
-    return redirect(f'/')
+    return render_template('variables.html', variables=vars)
 
 
 @app.route('/input_variables')
