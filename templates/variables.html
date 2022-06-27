@@ -13,8 +13,8 @@
 
     <form id = "center_me" method="POST" action="/results">
         {% for var in variables %}
-        <p>Variable {{}} value: <input id="var_name_input" type="text" name="var{{}}"></p>
-        <p>Variable {{}} uncertainty (+/-): <input id="var_uncertainty_input" type="text" name="var{{}}"></p>
+        <p>Variable {{var}} value: <input id="var_name_input" type="text" name="{{var}}"></p>
+        <p>Variable {{var}} uncertainty (+/-): <input id="var_uncertainty_input" type="text" name="{{var}}"></p>
         <br>
         {% endfor %}
 

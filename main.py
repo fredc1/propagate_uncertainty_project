@@ -18,7 +18,7 @@ def submit_expression():
     expression = request.form['expression']
     vars = ['x','y']
     print(expression)
-    return render_template('variables.html', variables=vars)
+    return render_template('variables.html', title='form title', variables=vars, with_results=False)
 
 
 @app.route('/input_variables')
