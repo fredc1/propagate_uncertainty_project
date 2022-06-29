@@ -17,8 +17,9 @@ def index():
 def submit_expression():
     expression = request.form['expression']
     vars = ['x','y']
+    uploadtype = "manual"
     print(expression)
-    return render_template('variables.html', title='form title', variables=vars, with_results=False)
+    return render_template('variables.html', title='form title', variables=vars, variable_string=uploadtype, with_results=False)
 
 
 @app.route('/input_variables')

@@ -10,8 +10,13 @@
 
 
     <form id = "center_me" method="POST" action="/submit_expression">
-    <p>Expression: <input id="txt_input" type="text" name="expression"> <input type="submit" value="Submit"></p>
+    <p>Expression: <input id="txt_input" type="text" name="expression"></p>
+        <input type="radio" name="action" id="csv" value="csv" /><label for="csv">CSV Upload</label><br />
+        <input type="radio" name="action" id="manual" value="manual" /><label for="manual">Manual Upload</label><br />
+        <p></p>
+        <input type="submit" value="Submit">
     </form>
+
 
 
     <script>

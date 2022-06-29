@@ -6,21 +6,22 @@
     should compile in python). For a list of functions you may use, refer to the documentation page. To understand how
     propagation of uncertainty works, refer to the learning page.</p>
 
-
-
     <div>{{r}}</div><br>
 
+    {% if variable_string == "manual" %}
 
-    <form id = "center_me" method="POST" action="/results">
-        {% for var in variables %}
-        <p>Variable {{var}} value: <input id="var_name_input" type="text" name="{{var}}"></p>
-        <p>Variable {{var}} uncertainty (+/-): <input id="var_uncertainty_input" type="text" name="{{var}}"></p>
-        <br>
-        {% endfor %}
-
-
-            <input type="submit" value="Submit">
-    </form>
-
-
-{% endblock %}l>
+        <form id = "center_me" method="POST" action="/results">
+            {% for var in variables %}
+            <p>Variable {{var}} value: <input id="var_name_input" type="text" name="{{var}}"></p>
+            <p>Variable {{var}} uncertainty (+/-): <input id="var_uncertainty_input" type="text" name="{{var}}"></p>
+            <br>
+            {% endfor %}
+                <input type="submit" value="Submit">
+        </form>
+    {% else %}
+        <form id = "center_me" method = "POST" action="/action_page.php">
+            <input type="file" id="myFile" name="filename">
+            <input type="submit">
+        </form>
+    {% endif %}
+{% endblock content %}l>
