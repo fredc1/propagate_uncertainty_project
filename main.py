@@ -2,6 +2,7 @@ from flask import Flask
 from forms import ExpressionForm
 from flask import render_template, flash, redirect, request
 from config import Config
+from expression import Expression
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -9,32 +10,25 @@ app.config.from_object(Config)
 
 @app.route('/', methods=['GET'])
 def index():
-
-    return render_template('index.html', title='form title', expr="", with_results=False)
+    return render_template('index.html')
 
 
 @app.route('/submit_expression', methods=['GET', 'POST'])
-def submit_expression():
-    expression = request.form['expression']
-    vars = ['x','y']
-    uploadtype = "manual"
-    print(expression)
-    return render_template('variables.html', title='form title', variables=vars, variable_string=uploadtype, with_results=False)
+def parse_expression_and_get_input():
+    expr_str = request.form['expression']
+    try:
+        expr_obj = Expression(expr_str)
+    except ValueError:
+        explain = "one of the words used in your expression is not a legal input"
+        return render_template('invalid_input.html', error_str=expr_str, lower_case_explanation_str=explain)
+    expr_vars = expr_obj.get_variables()
+    upload_type = "manual"
+    return render_template('variables.html', variables=expr_vars, expression=expr_str, variable_string=upload_type)
 
 
-@app.route('/input_variables')
-def format_variable_input():
-    expression = request.args['expr']
-    #for character in expression, add that character to a struct that will be passed to the template that will generate input fields for every variable
-    #then one button will submit them all and go to another route that will perform the calculation and will redirect to the results page with a link
-    #to go back to the home page and start over the process.
-
-    return redirect(f'/input_variables')
-
-
-@app.route('/result', methods = ['GET', 'POST'])
-def format_result():
-    pass
+@app.route('/results', methods=['GET', 'POST'])
+def get_results():
+    expr_str = request.form['expression']
 
 
 @app.route("/info")
