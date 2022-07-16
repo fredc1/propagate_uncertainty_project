@@ -2,10 +2,13 @@ import codecs
 import csv
 
 from flask import Flask
+from werkzeug.wsgi import wrap_file
+
 from forms import ExpressionForm
-from flask import render_template, Flask, flash, request, redirect, url_for, session
+from flask import render_template, Flask, flash, request, redirect, url_for, session, send_file
 from config import Config
 from expression import Expression
+from io import BytesIO
 import os
 from werkzeug.utils import secure_filename
 
@@ -89,6 +92,15 @@ def info():
 def docs():
     return render_template('docs.html')
 
+@app.route("/test_entry")
+def test_route():
+    return render_template('file_download.html')
+
+@app.route("/file_download", methods=['GET', 'POST'])
+def download():
+    full_string = "a,b\n1,2\n3,4\n"
+    f = BytesIO(bytes(full_string, encoding='utf-8'))
+    return send_file(f, mimetype = 'text/csv', as_attachment=True, download_name = 'results.csv')
 
 def main():
     app.run(host="127.0.0.1", port=8080, debug=True)

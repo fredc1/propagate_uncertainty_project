@@ -3,15 +3,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <center><h1>Propagate Uncertainty App</h1></center>
-    <p>Please type your expression into the textbox provided. Use standard python math operations (your expression
-    should compile in python). For a list of functions you may use, refer to the documentation page. To understand how
-    propagation of uncertainty works, refer to the learning page.</p>
+    <h1>Propagate Uncertainty App</h1>
+    <div>Please type your expression into the textbox provided. Use standard python math operations (your expression
+    should compile in python).</div>
+    <div>For a list of functions you may use, refer to the documentation page. To understand how
+    propagation of uncertainty works, refer to the learning page.</div>
 
 
     <form id = "center_me" method="POST" action="/submit_expression">
-    <p>Expression: <input id="txt_input" type="text" name="expression">
-        <input class = "input" type="submit" value="Submit"></p>
+    <p>Expression: <input id="txt_input" type="text" name="expression"></p>
+        <p></p>
+        <input class ="input" type="submit" value="Submit">
     </form>
 
 
@@ -27,6 +29,8 @@
 
     </script>
     <script type="text/javascript" src="path-to-javascript-file.js"></script>
+
+    <hr>
 
 
 {% endblock %}

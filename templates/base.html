@@ -9,7 +9,21 @@
                 text-align: center;
             }
             #txt_input {
-                width: 50%;
+                width: 30%;
+                height: 25px;
+                text-align: center;
+            }
+            #txt_input[type=text]:focus{
+                width: 30%;
+                height: 25px;
+                text-align: center;
+                background-color: #AFCEC2;
+            }
+            div {
+                text-align: center;
+            }
+            h1 {
+                text-align: center;
             }
             body {
                 background-color: #89CFF0
@@ -21,7 +35,6 @@
              color: black;
              padding: 7px 16px;
              text-align: center;
-             text-decoration: none;
              display: inline-block;
              font-size: 12px;
              margin: 4px 2px;
@@ -30,11 +43,12 @@
              transition-duration: 0.4s;
             }
 
+
             .input:hover {box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24);}
         </style>
     </head>
     <body>
-        <div>App Menu: <a href="/">Home</a> <a href="/docs">Documentation</a> <a href="/info">Learn</a> <a href="fj">GitHub</a></div>
+        <p>App Menu: <a href="/">Home</a> <a href="/docs">Documentation</a> <a href="/info">Learn</a> <a href="https://github.com/fredc1/parker_fred_uncertainty_project" target="_blank">GitHub</a></p>
         <hr>
         {% block content %}{% endblock %}
     </body>

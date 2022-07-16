@@ -2,18 +2,20 @@
 
 {% block content %}
     <center><h1>Propagate Uncertainty App</h1></center>
-    <p>Please upload a .csv where each column represents a variable in your expression and each row is a set of simultaneous measurements.
-    Note that the first row is reserved for variable names to make it easier for you to organize your table.</p>
+    <div>Please upload a .csv where each column represents a variable in your expression and each row is a set of simultaneous measurements.</div>
+    <div>Note that the first row is reserved for variable names to make it easier for you to organize your table.</div>
 
 
 
     <div>{{r}}</div><br>
 
-    <form action = "/upload_measurements" method = "POST"
+    <form id = "center_me" action = "/upload_measurements" method = "POST"
          enctype = "multipart/form-data">
-         <input type="file" name="file" />
-         <input class="input" type="submit"/>
+         <input type="file" />
+         <input class="input" type="submit" value="Submit"/>
     </form>
+
+    <hr>
 
 
 
