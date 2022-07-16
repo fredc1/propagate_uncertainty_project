@@ -16,12 +16,12 @@
             <p>Variable {{var}} uncertainty (+/-): <input id="var_uncertainty_input" type="text" name="{{var}}"></p>
             <br>
             {% endfor %}
-                <input type="submit" value="Submit">
+                <input class="input input2" type="submit" value="Submit">
         </form>
     {% else %}
         <form id = "center_me" method = "POST" action="/action_page.php">
             <input type="file" id="myFile" name="filename">
-            <input type="submit">
+            <input class="input" type="submit">
         </form>
     {% endif %}
 {% endblock content %}l>
