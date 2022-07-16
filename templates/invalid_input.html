@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <center><h1>Error: Invalid Input</h1></center>
+    <body>
+    The input, {{error_str}}, is invalid because {{lower_case_explanation_str}}.
+    </body>
+
+{% endblock %}
+
