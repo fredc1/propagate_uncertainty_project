@@ -48,9 +48,10 @@ class Expression:
             else:
                 word_str = "".join(word)
                 if word_str != "":
-                    words.append(word_str)
+                    if word_str not in words:
+                        words.append(word_str)
                 word.clear()
-        return set(words)
+        return words
 
     @staticmethod
     def get_permitted_function_name_and_desc():
@@ -70,9 +71,10 @@ class Expression:
 
         for word in self.words:
             if len(word) == 1:
-                result.append(word)
+                if word not in result:
+                    result.append(word)
 
-        return set(result)
+        return result
 
     def is_safe_to_exec(self) -> bool:
         """Must return true before using propagate_uncertainty()

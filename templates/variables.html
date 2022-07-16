@@ -2,26 +2,19 @@
 
 {% block content %}
     <center><h1>Propagate Uncertainty App</h1></center>
-    <p>Please type your expression into the textbox provided. Use standard python math operations (your expression
-    should compile in python). For a list of functions you may use, refer to the documentation page. To understand how
-    propagation of uncertainty works, refer to the learning page.</p>
+    <p>Please upload a .csv where each column represents a variable in your expression and each row is a set of simultaneous measurements.
+    Note that the first row is reserved for variable names to make it easier for you to organize your table.</p>
+
+
 
     <div>{{r}}</div><br>
 
-    {% if variable_string == "manual" %}
+    <form action = "/upload_measurements" method = "POST"
+         enctype = "multipart/form-data">
+         <input type="file" name="file" />
+         <input class="input" type="submit"/>
+    </form>
 
-        <form id = "center_me" method="POST" action="/results">
-            {% for var in variables %}
-            <p>Variable {{var}} value: <input id="var_name_input" type="text" name="{{var}}"></p>
-            <p>Variable {{var}} uncertainty (+/-): <input id="var_uncertainty_input" type="text" name="{{var}}"></p>
-            <br>
-            {% endfor %}
-                <input class="input input2" type="submit" value="Submit">
-        </form>
-    {% else %}
-        <form id = "center_me" method = "POST" action="/action_page.php">
-            <input type="file" id="myFile" name="filename">
-            <input class="input" type="submit">
-        </form>
-    {% endif %}
-{% endblock content %}l>
+
+
+{% endblock %}
