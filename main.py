@@ -120,18 +120,6 @@ def docs():
     return render_template('docs.html')
 
 
-@app.route("/test_entry")
-def test_route():
-    return render_template('file_download.html')
-
-
-@app.route("/file_download", methods=['GET', 'POST'])
-def download():
-    full_string = "a,b\n1,2\n3,4\n"
-    f = BytesIO(bytes(full_string, encoding='utf-8'))
-    return send_file(f, mimetype='text/csv', as_attachment=True, download_name='results.csv')
-
-
 def main():
     app.run(host="127.0.0.1", port=8080, debug=True)
 
