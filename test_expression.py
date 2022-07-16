@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-from expression import parse_expr
 from expression import Expression
 
 
@@ -40,15 +39,15 @@ class TestExpression(TestCase):
 
 class Test(TestCase):
     def test_parse_expr(self):
-        r = parse_expr("a")  # Singleton
+        r = Expression.parse_expr("a")  # Singleton
         self.assertEqual({"a"}, r)
-        r = parse_expr("")  # Empty
+        r = Expression.parse_expr("")  # Empty
         self.assertEqual(set([]), r)
-        r = parse_expr("sin(x)+b**2/aac")  # Words
+        r = Expression.parse_expr("sin(x)+b**2/aac")  # Words
         self.assertEqual({"x", "sin", "aac", "b"}, r)
-        r = parse_expr("A+a")  # Upper case
+        r = Expression.parse_expr("A+a")  # Upper case
         self.assertEqual({"a", "A"}, r)
-        r = parse_expr("a+a-a/a**a%a")  # Ops + Repeats
+        r = Expression.parse_expr("a+a-a/a**a%a")  # Ops + Repeats
         self.assertEqual({"a"}, r)
 
     def test_str_to_py(self):
