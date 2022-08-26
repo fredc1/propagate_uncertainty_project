@@ -8,15 +8,55 @@
 
 
     <div>{{r}}</div><br>
+    <p>Select an option:</p>
 
-    <form id = "center_me" action = "/upload_measurements" method = "POST"
+    <div>
+      <input type="radio" id="manual" name="example" value="hide" checked />
+      <label for="manual">Input measurement variables by hand</label>
+    </div>
+
+    <div>
+      <input type="radio" id="form" name="example" value="show" />
+      <label for="form">Upload a file with multiple sets of measurements</label>
+    </div>
+
+    <form id = "file_upload_form" action = "/upload_file" method = "POST"
          enctype = "multipart/form-data">
-         <input type="file" name="file"/>
-         <input class="input" type="submit" value="Submit and Download"/>
+         <input type="file" name="file">
+         <input class="input" type="submit" value="Submit and Download">
     </form>
 
-    <hr>
+    <form id = "manual_input_upload_form" method="POST" action = "/upload_single_measurement">
+        {% for var in variables %}
+            <p>Variable {{var}}: <input id="val_input_{{var}}" type="text" name="val_{{var}}"> (+/-) <input id="uncertainty_input_{{var}}" type="text" name="unc_{{var}}"></p>
+            <br>
+        {% endfor %}
+         <input class="input" type="submit" value="Submit">
+    </form>
 
+
+    <hr>
+<script>
+    const file_form = document.getElementById('file_upload_form');
+    const manual_form = document.getElementById('manual_input_upload_form');
+
+    function handleRadioClick() {
+      if (document.getElementById('manual').checked) {
+        manual_form.style.display = 'block';
+        file_form.style.display = 'none';
+      } else {
+        manual_form.style.display = 'none';
+        file_form.style.display = 'block';
+      }
+    }
+
+    const radioButtons = document.querySelectorAll('input[name="example"]');
+    radioButtons.forEach(radio => {
+      radio.addEventListener('click', handleRadioClick);
+    });
+    handleRadioClick();
+
+</script>
 
 
 {% endblock %}

@@ -16,9 +16,9 @@ class TestExpression(TestCase):
         self.blank_expr.words = set([])
 
     def test_is_safe_to_exec(self):
-        self.assertTrue(self.blank_expr.is_safe_to_exec())  # Empty
+        self.assertTrue(self.blank_expr._is_safe_to_exec())  # Empty
         self.blank_expr.words = {"for", "sin", "tanh", "a"}  # Illegal words
-        self.assertFalse(self.blank_expr.is_safe_to_exec())
+        self.assertFalse(self.blank_expr._is_safe_to_exec())
         self.blank_expr.words = {"acos", "acosh", "asin", "asinh",  # Maximal Legal Set
                                  "atan", "atanh", "ceil",
                                  "cos", "cosh", "erf", "erfc",
@@ -27,7 +27,7 @@ class TestExpression(TestCase):
                                  "log", "modf", "pow",
                                  "sin", "sinh", "sqrt", "tan",
                                  "tanh", "trunc", "a", "b", "c"}
-        self.assertTrue(self.blank_expr.is_safe_to_exec())
+        self.assertTrue(self.blank_expr._is_safe_to_exec())
         self.blank_expr.words = set([])
 
     def test_propagate_uncertainty(self):

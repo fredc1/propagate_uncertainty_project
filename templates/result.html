@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+    <h1>Propagate Uncertainty App</h1>
+    <div>The expression {{expression}} has value {{results[0]}} and uncertainty {{results[1]}}</div>
+
+
+    <hr>
+
+
+{% endblock %}
