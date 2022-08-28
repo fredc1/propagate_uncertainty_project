@@ -34,11 +34,13 @@ class Expression:
                               "tanh": ("tanh(x)", "Return the hyperbolic tangent of x."),
                               "trunc": ("trunc(x)", "Truncates the Real x to the nearest Integral toward 0.")
                               }
-    permitted_operator_strings = ['+', '-', '/', '*', '^', '(', ')', '[', ']', '{', '}']
+    permitted_operator_strings = ['+', '-', '/', '*', '^', '(', ')', '[', ']', '{', '}', '.']
 
     def __init__(self, expr_str):
         """Object representation of the expression input by user"""
         self.user_str = expr_str.replace(" ", "")
+        if len(self.user_str) == 0:
+            raise ValueError("The expression you submitted is empty")
         self.words, self.characters = Expression._parse_expr(expr_str)
         self.variables = self._parse_variables()
         if not self._is_safe_to_exec():
@@ -49,15 +51,17 @@ class Expression:
             raise ValueError('Invalid parenthesis in expression')
         self.expr_str = self.user_str.replace("[", "(").replace("]", ")").replace("{", "(").replace("}", ")").replace(
             "^", "**")
-        if len(self.variables) > 200:
-            raise ValueError("Too many variables in expression")
+        if len(self.user_str) > 1000:
+            raise ValueError("Expression too long")
+        if len(self.variables) == 0:
+            raise ValueError("Expression has no variables")
         values = []
         for var in self.variables:
             values.append((var, "0", "0"))
         try:
             self.propagate_uncertainty(values)
         except Exception as e:
-            raise ValueError('There is something wrong with the input expression')
+            raise ValueError('Cannot parse input expression')
 
     @staticmethod
     def get_permitted_expression_functions():
@@ -78,7 +82,7 @@ class Expression:
             val_unc_str = f"\"{val[1]}+/-{val[2]}\""
             command_list.append(assignment.format(var_name=val[0], val_unc=val_unc_str))
 
-        command_list.append(f"result = {self.user_str}\n")
+        command_list.append(f"result = {self.expr_str}\n")
         command = "".join(command_list)
         _locals = locals()
         exec(command, globals(), _locals)
@@ -103,6 +107,8 @@ class Expression:
     @staticmethod
     def _parse_expr(expr):
         """Returns a list of every unique contiguous sequence of letters in expr and every unique character"""
+        if expr == "":
+            return [], []
         if len(expr) == 0:
             return set([])
         word = []
@@ -116,7 +122,7 @@ class Expression:
             else:
                 word_str = "".join(word)
                 if word_str != "":
-                    if word not in words:
+                    if word_str not in words:
                         words.append(word_str)
                 word.clear()
         return words, characters
@@ -136,7 +142,7 @@ class Expression:
             assert not c.isalpha()
 
         for c in self.characters:
-            if (not c.isalpha()) and (c not in Expression.permitted_operator_strings):
+            if (not c.isalpha()) and (not c.isdigit()) and (c not in Expression.permitted_operator_strings):
                 print(f"failing var: {c}")
                 return False
         return True
@@ -146,12 +152,13 @@ class Expression:
         s = self.user_str
 
         mapping = {")": "(", "}": "{", "]": "["}
+        mapping_complement = ["(", "{", "["]
         for char in s:
             if char in mapping:
                 top_element = stack.pop() if stack else '#'
                 if mapping[char] != top_element:
                     return False
-            elif (not char.isalpha()) and (char not in Expression.permitted_operator_strings):
+            elif char in mapping or char in mapping_complement:
                 stack.append(char)
 
         return not stack

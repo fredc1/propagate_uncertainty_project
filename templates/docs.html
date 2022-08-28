@@ -9,64 +9,15 @@
         this is basically PEMDAS (parens, exponents, multiplication/division, addition/subtraction). Also, you may use
         only single character lower or upper case variables in your expression. One thing to note
         is that operators like ^ will consider the next character to be their only operand unless you use parens.
+        List of operators: {{operators}}.
     </p>
     <p>
         You may also use functions from a specified list that is outlined here. Note that all angles are measured
         in radians.
         <ul>
-        <li>acos(x)        : Return the arc cosine (measured in radians) of x.</li>
-
-        <li>acosh(x)       : Return the inverse hyperbolic cosine of x.</li>
-
-        <li>asin(x)        : Return the arc sine (measured in radians) of x.</li>
-
-        <li>asinh(x)       : Return the inverse hyperbolic sine of x.</li>
-
-        <li>atan(x)        : Return the arc tangent (measured in radians) of x.</li>
-
-        <li>atanh(x)       : Return the inverse hyperbolic tangent of x.</li>
-
-        <li>ceil(x)        : Return the ceiling of x as an Integral. This is the smallest integer >= x.</li>
-
-        <li>cos(x)         : Return the cosine of x (measured in radians).</li>
-
-        <li>cosh(x)        : Return the hyperbolic cosine of x.</li>
-
-        <li>erf(x)         : Error function at x.</li>
-
-        <li>erfc(x)        : Complementary error function at x.</li>
-
-        <li>exp(x)         : Return e raised to the power of x.</li>
-
-        <li>fabs(x)        : Return the absolute value of the float x.</li>
-
-        <li>factorial(x, /): Find x!. Raise a ValueError if x is negative or non-integral.</li>
-
-        <li>floor(x)       : Return the floor of x as an Integral. This is the largest integer <= x.</li>
-
-        <li>gamma(x)       : Gamma function at x.</li>
-
-        <li>hypot(x1, ...) : Multidimensional Euclidean distance from the origin to a point. Roughly equivalent to: sqrt(sum(x**2 for x in coordinates))</li>
-
-        <li>lgamma(x)      : Natural logarithm of absolute value of Gamma function at x.</li>
-
-        <li>log(x, base)   : Return the logarithm of x to the given base. If the base not specified, returns the natural logarithm (base e) of x.</li>
-
-        <li>modf(x)        : Return the fractional and integer parts of x. Both results carry the sign of x and are floats.</li>
-
-        <li>pow(x, y)      : Return x**y (x to the power of y).</li>
-
-        <li>sin(x)         : Return the sine of x (measured in radians).</li>
-
-        <li>sinh(x)        : Return the hyperbolic sine of x.</li>
-
-        <li>sqrt(x)        : Return the square root of x.</li>
-
-        <li>tan(x)         : Return the tangent of x (measured in radians).</li>
-
-        <li>tanh(x)        : Return the hyperbolic tangent of x.</li>
-
-        <li>trunc(x)       : Truncates the Real x to the nearest Integral toward 0.</li>
+        {% for func in functions %}
+            <li>{{func[0]}}        : {{func[1]}}</li>
+        {% endfor %}
         </ul>
 
     </p>

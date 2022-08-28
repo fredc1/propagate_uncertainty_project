@@ -6,8 +6,8 @@
     <div>Note that the first row is reserved for variable names to make it easier for you to organize your table.</div>
 
 
+    <div></div><br>
 
-    <div>{{r}}</div><br>
     <p>Select an option:</p>
 
     <div>
@@ -19,11 +19,15 @@
       <input type="radio" id="form" name="example" value="show" />
       <label for="form">Upload a file with multiple sets of measurements</label>
     </div>
-
+    <br><div id="file_upload_explanation">For example, if you had an expression a+b+c, you would submit a file that looked like the following where the
+        a, b, c column names had to match the variables you used
+    in your expression. Also, the variables must be in order that they appear in your expression. For example, your
+    variables must appear in the order {{variable_order}}.</div><br>
+    <center><img src="{{user_image}}" id="file_upload_image" width="70%"></center>
     <form id = "file_upload_form" action = "/upload_file" method = "POST"
          enctype = "multipart/form-data">
          <input type="file" name="file">
-         <input class="input" type="submit" value="Submit and Download">
+         <input class="input" type="submit" value="Submit and Download Results">
     </form>
 
     <form id = "manual_input_upload_form" method="POST" action = "/upload_single_measurement">
@@ -38,15 +42,25 @@
     <hr>
 <script>
     const file_form = document.getElementById('file_upload_form');
+    const file_explanation = document.getElementById('file_upload_explanation');
+    const file_image = document.getElementById('file_upload_image');
     const manual_form = document.getElementById('manual_input_upload_form');
 
     function handleRadioClick() {
       if (document.getElementById('manual').checked) {
         manual_form.style.display = 'block';
         file_form.style.display = 'none';
+
+        file_image.style.display = 'none';
+        file_explanation.style.display = 'none';
+
+
       } else {
         manual_form.style.display = 'none';
         file_form.style.display = 'block';
+
+        file_image.style.display = 'block';
+        file_explanation.style.display = 'block';
       }
     }
 

@@ -5,14 +5,13 @@ from flask import render_template, Flask, flash, request, redirect, url_for, ses
 from config import Config
 from expression import Expression
 from io import BytesIO
-
-# TODO clean up user input handling ideally raise exceptions instead of sending to special page
+from os.path import join
+# TODO clean up user input error handling ideally raise exceptions instead of sending to special page
 #  and handle with flask builtin (use flash where makes sense)
-# TODO fill function docs and do general code cleanup/refactor
-# TODO update tests for expression API
-# TODO cleanup and refine landing page instructions
-# TODO cleanup and refine variables page (add picture with example for table)
 # TODO Google Adds
+# TODO Rehost
+# TODO fix favicon on non chrome sites
+
 
 ALLOWED_EXTENSIONS = {'csv'}
 
@@ -27,6 +26,8 @@ def index():
 
 @app.route('/submit_expression', methods=['GET', 'POST'])
 def parse_expression_and_get_input():
+    """Form that is called by the expression input form
+    First function that runs when user submits their expression as a string"""
     expr_str = request.form['expression']
 
     try:
@@ -37,14 +38,22 @@ def parse_expression_and_get_input():
 
     session['expr'] = expr_str
     expr_vars = expr_obj.get_variables()
-    return render_template('variables.html', variables=expr_vars, expression=expr_str)
+
+    image_filename = join('static', 'user_input_example.png')
+    variable_order = ""
+    for var in expr_vars:
+        variable_order += f"{var}, "
+    return render_template('variables.html', variables=expr_vars, expression=expr_str,
+                           variable_order=variable_order, user_image=image_filename)
 
 
 def allowed_file(filename):
+    """checks if file extension is in allowed set"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def get_prop_results_from_stream(stream, variables, columns, expression) -> BytesIO:
+    """Helper function for upload file route"""
     results_strs_list = []
     header = ""
     for colname in columns:
@@ -72,6 +81,7 @@ def get_prop_results_from_stream(stream, variables, columns, expression) -> Byte
 
 @app.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
+    """route that is called by the file upload form"""
     expr_str = session["expr"]
     try:
         expr_obj = Expression(expr_str)
@@ -86,11 +96,10 @@ def upload_file():
         if 'file' not in request.files:
             return render_template('invalid_input.html', error_str="file upload",
                                    lower_case_explanation_str="no file part")
+            # If we were to use the flash api...
             # flash('No file part')
             # return redirect(request.url)
         file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         if file.filename == '':
             return render_template('invalid_input.html', error_str="file upload",
                                    lower_case_explanation_str="no selected file")
@@ -108,15 +117,19 @@ def upload_file():
                 return render_template('invalid_input.html', error_str=columns.__repr__(),
                                        lower_case_explanation_str="there should be twice as many columns as variables "
                                                                   "in csv. one for each variable and one for each "
-                                                                  "uncertainty directly adjacent")
+                                                                  "uncertainty directly to the right of the variable")
             for i in range(len(columns)):
                 if i % 2 == 0:
                     if not columns[i].isalpha():
                         return render_template('invalid_input.html', error_str=columns[i],
-                                               lower_case_explanation_str=f"the first row must match the variable names spelling and this order: {variables.__repr__()}")
+                                               lower_case_explanation_str=f"the first row must match the variable "
+                                                                          f"names spelling and this order: "
+                                                                          f"{variables.__repr__()}")
                     if columns[i] != variables[i // 2]:
                         return render_template('invalid_input.html', error_str=columns[i],
-                                               lower_case_explanation_str=f"column names must match variable names and be in this order: {variables.__repr__()}")
+                                               lower_case_explanation_str=f"column names must match variable names "
+                                                                          f"and be in this order: "
+                                                                          f"{variables.__repr__()}")
             for row in data_table:
                 for i in range(len(row)):
                     if i % 2 == 0 and not is_valid_float_or_int_pos_or_neg(row[i]):
@@ -135,6 +148,7 @@ def upload_file():
 
 
 def is_valid_float_or_int_pos_or_neg(num_str):
+    """helper function determines if a string is numeric (including appropriate use of - and . signs)"""
     if num_str[0] == '-':
         if len(num_str) < 2:
             return False
@@ -153,6 +167,7 @@ def is_valid_float_or_int_pos_or_neg(num_str):
 
 @app.route('/upload_single_measurement', methods=['GET', 'POST'])
 def upload_single_measurement():
+    """called by the alternative form to file upload that allows user to manually input a single measurement"""
     expr_str = session["expr"]
 
     try:
@@ -192,7 +207,11 @@ def info():
 
 @app.route("/docs")
 def docs():
-    return render_template('docs.html')
+    operators_string = ""
+    for op in Expression.permitted_operator_strings:
+        operators_string += f"{op}, "
+    return render_template('docs.html', functions=Expression.permitted_func_strings.values(),
+                           operators=operators_string)
 
 
 def main():
